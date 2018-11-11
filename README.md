@@ -24,11 +24,7 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
 
 * The Xcode Version should be <b>10.0+</b>
 
-* The swift version in Xcode should be set to <b>4</b>
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/12429051/48312323-f4567600-e5d2-11e8-8e26-b7a332e062b9.png" height="300" width="500"/>
-</p>
+* The swift version (found under Build Settings) in Xcode should be set to <b>4</b>
 
 <b><h2>Usage</h2></b>
 

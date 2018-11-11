@@ -1,0 +1,35 @@
+{
+    "name": "cordova-plugin-humanapi",
+    "version": "1.0.0",
+    "description": "Human API Plugin for Android and IOS",
+    "cordova": {
+      "id": "cordova-plugin-humanapi",
+      "platforms": [
+        "android",
+        "ios"
+      ]
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/vikramezhil/cordova-plugin-humanapi.git"
+    },
+    "keywords": [
+      "ecosystem:cordova",
+      "cordova-android",
+      "cordova-ios",
+      "cordova",
+      "ionic",
+      "android",
+      "ios",
+      "human",
+      "humanapi",
+      "human api",
+      "human-api"
+    ],
+    "author": "Vikram Ezhil <vikram.ezhil.1988@gmail.com>",
+    "license": "Apache 2.0",
+    "bugs": {
+      "url": "https://github.com/vikramezhil/cordova-plugin-humanapi/issues"
+    },
+    "homepage": "https://github.com/vikramezhil/cordova-plugin-humanapi"
+  }

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-humanapi" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Human API Plugin</name>
+    <description>Human API Plugin for Android and IOS</description>
+    <author>Vikram Ezhil</author>
+    
+    <keywords>cordova,ionic,android,ios,human,humanapi,human api,human-api</keywords>
+    <repo>https://github.com/vikramezhil/cordova-plugin-humanapi.git</repo>
+    <issue>https://github.com/vikramezhil/cordova-plugin-humanapi/issues</issue>
+
+    <js-module name="humanapi" src="www/humanapi.js">
+        <clobbers target="window.plugin.humanapi" />
+    </js-module>
+    
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="HumanAPIPlugin">
+                <param name="android-package" value="com.github.vikramezhil.cordova.HumanAPIPlugin" />
+            </feature>
+        </config-file>
+        
+        <!-- Activities -->
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+            <activity android:name="com.github.vikramezhil.cordova.human.HumanAPIActivity" android:screenOrientation="unspecified"/>
+        </config-file>
+
+        <!-- Manifest Permissions -->
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.INTERNET"/>
+        </config-file>
+
+        <!-- Gradle settings -->
+        <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference"/>
+
+        <!-- HumanAPIPlugin Controller Class -->
+        <source-file src="src/android/HumanAPIPlugin.java" target-dir="src/com/github/vikramezhil/cordova" />
+
+        <!-- Service -->
+        <source-file src="src/android/service/Service.java" target-dir="src/com/github/vikramezhil/cordova/service" /> 
+
+        <!-- Human API -->
+        <source-file src="src/android/res/layout/activity_human.xml" target-dir="res/layout" />
+        <source-file src="src/android/human/HumanAPIActivity.java" target-dir="src/com/github/vikramezhil/cordova/human" /> 
+        <source-file src="src/android/human/HumanAPIModel.java" target-dir="src/com/github/vikramezhil/cordova/human" /> 
+    </platform>
+    
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="HumanAPIPlugin">
+                <param name="ios-package" value="HumanAPIPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        
+        <config-file target="*-Info.plist" parent="NSAppTransportSecurity">
+            <dict>
+                <key>NSAllowsArbitraryLoads</key>
+                <true/>
+            </dict>
+        </config-file>
+
+        <!-- Storyboard -->
+        <resource-file src="src/ios/Base.lproj/Main.storyboard" />
+
+        <!-- HumanAPIPlugin Controller Class -->
+        <source-file src="src/ios/HumanAPIPlugin.swift" target-dir="src/ios" />
+
+        <!-- Service -->
+        <source-file src="src/ios/service/Service.swift" target-dir="src/ios/service" />
+
+        <!-- Utilities -->
+        <source-file src="src/ios/utils/Extensions.swift" target-dir="src/ios/utils" />
+
+        <!-- Human API -->
+        <source-file src="src/ios/human/HumanAPIVC.swift" target-dir="src/ios/human" />
+        <source-file src="src/ios/human/HumanAPIModel.swift" target-dir="src/ios/human" />
+    </platform>
+</plugin>

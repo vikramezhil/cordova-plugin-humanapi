@@ -21,12 +21,14 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
     private let TAG: String = "HumanAPIVC"
     
     @IBOutlet weak var wkWVHumanAPI: WKWebView!
-    private var wkWVTempHumanAPI: WKWebView?
+    @IBOutlet weak var wkWVRedirectHumanAPI: WKWebView!
     
     private var service: Service = Service()
     private var humanAPIModel: HumanAPIModel = HumanAPIModel()
     
     private var humanTokens: [String: String] = [:]
+    
+    private var multiRedirectFound: Bool = false
     
     var humanAPIVCDelegate: HumanAPIVCDelegate?
     
@@ -42,13 +44,17 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
         wkWVHumanAPI?.uiDelegate = self
         wkWVHumanAPI?.navigationDelegate = self
         
+        wkWVRedirectHumanAPI?.configuration.preferences = preferences
+        wkWVRedirectHumanAPI?.uiDelegate = self
+        wkWVRedirectHumanAPI?.navigationDelegate = self
+        
         if humanTokens.count == 5 {
             humanAPIModel.clientId = humanTokens["clientID"]!
             humanAPIModel.clientSecret = humanTokens["clientSecret"]!
             humanAPIModel.userId = humanTokens["userID"]!
             humanAPIModel.publicToken = humanTokens["publicToken"]!
             humanAPIModel.accessToken = humanTokens["accessToken"]!
-
+            
             if let url = humanAPIModel.loadURL {
                 wkWVHumanAPI?.load(url)
             } else {
@@ -56,7 +62,7 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
             }
         } else {
             print(TAG, "humanTokens doesn't have all the required data. Exiting.....")
-
+            
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -84,7 +90,17 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
         if navigationAction.targetFrame == nil {
             print(TAG, "Link detected with target = '_blank'")
             
-            wkWVHumanAPI.load(navigationAction.request)
+            if let requestUrl = navigationAction.request.url {
+                if(requestUrl.absoluteString.contains(humanAPIModel.integrationPopupDetectUrl)) {
+                    wkWVRedirectHumanAPI.load(navigationAction.request)
+                    wkWVRedirectHumanAPI.isHidden = false
+                    wkWVHumanAPI.isHidden = true
+                } else {
+                    wkWVHumanAPI.load(navigationAction.request)
+                    wkWVHumanAPI.isHidden = false
+                    wkWVRedirectHumanAPI.isHidden = true
+                }
+            }
         }
         
         return nil
@@ -112,37 +128,37 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
                 self.dismiss(animated: true, completion: nil)
                 
                 return
-            } else if(newUrl.hasPrefix(humanAPIModel.popupDetectUrl)) {
-                if(wkWVTempHumanAPI == nil) {
-                    // Setting the popup url in the temporary web view to prevent the main web view from
-                    // showing a white screen
-                    wkWVTempHumanAPI = WKWebView(frame: self.view.bounds)
-                    wkWVTempHumanAPI?.uiDelegate = self
-                    wkWVTempHumanAPI?.navigationDelegate = self
-                    self.view.addSubview(wkWVTempHumanAPI!)
-                    
-                    wkWVTempHumanAPI?.load(navigationAction.request)
-                    
-                    decisionHandler(.cancel)
-                    
-                    return
-                } else {
-                    wkWVTempHumanAPI?.isHidden = true
-                    wkWVTempHumanAPI = nil
-                }
-            } else if(newUrl.hasPrefix(humanAPIModel.popupCloseUrl)) {
+            } else if(newUrl.hasPrefix(humanAPIModel.popupDetectUrl) && !multiRedirectFound) {
+                multiRedirectFound = true
+                
+                // Loading any popup url in the redirect web view
+                wkWVRedirectHumanAPI.load(navigationAction.request)
+                
+                decisionHandler(.cancel)
+                
+                return
+            } else if(newUrl.hasPrefix(humanAPIModel.popupCloseWithMsgUrl) || newUrl.hasPrefix(humanAPIModel.popupCloseUrl)) {
                 let parts = newUrl.components(separatedBy: "?")
                 if(parts.count > 1) {
                     let message = parts[1]
                     let js = "window.postMessage(decodeURIComponent('\(message)'), '*');"
-                    wkWVHumanAPI.evaluateJavaScript(js, completionHandler: {(innerHtml, error) in
-                        print(self.TAG, "Inner html = \(String(describing: innerHtml))")
+                    
+                    self.wkWVHumanAPI.evaluateJavaScript(js, completionHandler: {(innerHtml, error) in
+                        print(self.TAG, "evaluateJavaScript for wkWVHumanAPI completed")
+                        
+                        self.multiRedirectFound = false
+                        self.wkWVHumanAPI.isHidden = false
+                        self.wkWVRedirectHumanAPI.isHidden = true
                     })
                 }
             }
         }
         
         decisionHandler(.allow)
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        print(TAG, "Completed navigation = \(String(describing: webView.url))")
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -184,7 +200,7 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
                 }
                 
                 break
-                
+            
             case HumanAPIModel.humanAPIDataPassBackKey:
                 
                 // Setting the human data in the model
@@ -195,7 +211,7 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
                 self.dismiss(animated: true, completion: nil)
                 
                 break
-                
+            
             default:
                 break
         }

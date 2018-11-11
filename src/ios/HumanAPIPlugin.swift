@@ -17,7 +17,7 @@ import UIKit
         super.pluginInitialize()
 
         // Initializing the storyboard
-        storyboard = UIStoryboard(name: "Main", bundle: nil)
+        storyboard = UIStoryboard(name: "Human", bundle: nil)
     }
 
     //*************************************************************************************
@@ -39,7 +39,7 @@ import UIKit
         // Saving a reference of the human API command invoke context
         humanCDVContext = command
 
-        if let triggerType = command.arguments[0] as? String, let clientID = command.arguments[1] as? String, let clientSecret = command.arguments[2] as? String,
+        if let _ = command.arguments[0] as? String, let clientID = command.arguments[1] as? String, let clientSecret = command.arguments[2] as? String,
             let userID = command.arguments[3] as? String, let publicToken = command.arguments[4] as? String, let accessToken = command.arguments[5] as? String {
             humanAPIVC = storyboard?.instantiateViewController(withIdentifier: "humanAPIVC") as? HumanAPIVC
             humanAPIVC?.humanAPIVCDelegate = self

@@ -17,7 +17,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VAR-rt-Rof">
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXs-Sz-Lxm">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <wkWebView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GCG-c0-yWF">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
@@ -28,20 +36,24 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="VAR-rt-Rof" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="e4t-Il-0IY"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="VAR-rt-Rof" secondAttribute="bottom" id="hpo-ko-6XH"/>
-                            <constraint firstItem="VAR-rt-Rof" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="n6t-xk-JSn"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VAR-rt-Rof" secondAttribute="trailing" id="rz0-tH-Gv1"/>
+                            <constraint firstItem="fXs-Sz-Lxm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="GQE-mv-xuk"/>
+                            <constraint firstItem="GCG-c0-yWF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="U1l-3b-MgJ"/>
+                            <constraint firstItem="fXs-Sz-Lxm" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="UkE-Oy-jaD"/>
+                            <constraint firstItem="GCG-c0-yWF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YjK-1t-xqs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="GCG-c0-yWF" secondAttribute="bottom" id="Z91-dC-zcc"/>
+                            <constraint firstItem="fXs-Sz-Lxm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cD8-zW-OKV"/>
+                            <constraint firstItem="fXs-Sz-Lxm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gsa-zx-Wty"/>
+                            <constraint firstItem="GCG-c0-yWF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="txe-FO-rxL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="wkWVHumanAPI" destination="VAR-rt-Rof" id="S2v-y4-xta"/>
+                        <outlet property="wkWVHumanAPI" destination="fXs-Sz-Lxm" id="7xd-xY-Ewm"/>
+                        <outlet property="wkWVRedirectHumanAPI" destination="GCG-c0-yWF" id="Buu-fT-sBR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-196" y="27"/>
         </scene>
     </scenes>
 </document>

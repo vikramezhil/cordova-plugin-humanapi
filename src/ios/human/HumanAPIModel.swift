@@ -24,8 +24,10 @@ class HumanAPIModel: NSObject {
     private let baseURL: String = "https://connect.humanapi.co/"
     private let finishURL: String = "https://hapi-finish"
     private let closeURL: String = "https://hapi-close"
+    private let integrationPopupDetectURL: String = "popup=1"
     private let popupDetectURL: String = "https://user.humanapi.co/x/close"
     private let popupCloseURL: String = "https://close-popup"
+    private let popupCloseWithMsgURL: String = "https://close-popup-with-message"
     
     private var id: String = ""
     private var secret: String = ""
@@ -51,6 +53,15 @@ class HumanAPIModel: NSObject {
     }
     
     ///
+    /// Gets the integration popup detect url
+    ///
+    var integrationPopupDetectUrl: String {
+        get {
+            return self.integrationPopupDetectURL
+        }
+    }
+    
+    ///
     /// Gets the popup detect url
     ///
     var popupDetectUrl: String {
@@ -65,6 +76,15 @@ class HumanAPIModel: NSObject {
     var popupCloseUrl: String {
         get {
             return self.popupCloseURL
+        }
+    }
+    
+    ///
+    /// Gets the popup close with message url
+    ///
+    var popupCloseWithMsgUrl: String {
+        get {
+            return self.popupCloseWithMsgURL
         }
     }
     
@@ -153,7 +173,7 @@ class HumanAPIModel: NSObject {
             if let url = URL(string: urlString) {
                 return URLRequest(url: url)
             }
-
+            
             return nil
         }
     }

@@ -60,7 +60,7 @@
         </config-file>
 
         <!-- Storyboard -->
-        <resource-file src="src/ios/Base.lproj/Main.storyboard" />
+        <resource-file src="src/ios/Base.lproj/Human.storyboard" />
 
         <!-- HumanAPIPlugin Controller Class -->
         <source-file src="src/ios/HumanAPIPlugin.swift" target-dir="src/ios" />

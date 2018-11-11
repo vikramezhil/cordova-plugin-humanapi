@@ -11,6 +11,11 @@ Human API Cordova Plugin for Android & IOS
 
     cordova plugin add cordova-plugin-humanapi
 
+
+<b><h2>Documentation</h2></b>
+
+For a detailed documentation 📔, please have a look at the [Wiki](https://github.com/vikramezhil/cordova-plugin-humanapi/wiki).
+
 <b><h2>IOS Prerequisites</h2></b>
 
 * The human API code for IOS is written in <b>swift 4</b> language. In order to use this plugin, your project deployment target should be set to a minimum of <b>11</b>.

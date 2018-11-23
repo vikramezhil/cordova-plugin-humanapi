@@ -178,21 +178,28 @@ class HumanAPIModel: NSObject {
         }
     }
     
-    var tokens: [String: Any] {
+    var tokens: String {
         get {
-            return [:]
+            return ""
         }
         
         set(tokens) {
-            if let aToken = tokens["accessToken"] {
-                self.aToken = aToken as! String
+            let parseTokens = tokens.convertToDictionary()
+
+            if let unwrappedTokens = parseTokens {
+                if let aToken = unwrappedTokens["accessToken"] {
+                    self.aToken = aToken as! String
+                } else {
+                    self.aToken = ""
+                }
+                
+                if let pToken = unwrappedTokens["publicToken"] {
+                    self.pToken = pToken as! String
+                } else {
+                    self.pToken = ""
+                }
             } else {
                 self.aToken = ""
-            }
-            
-            if let pToken = tokens["publicToken"] {
-                self.pToken = pToken as! String
-            } else {
                 self.pToken = ""
             }
         }
@@ -268,13 +275,50 @@ class HumanAPIModel: NSObject {
     
     //*************************************************************************************
     
-    static let humanAPIDataPassBackKey: String = "humanAPIDataPassBackKey"
-    private let dataURL: String = "https://api.humanapi.co/v1/human"
-    private var humanDataSet: [String: Any] = [:]
-    
-    var dataUrl: String {
-        get {
-            return self.dataURL
+    ///
+    /// Gets the wellness data url based on key
+    ///
+    /// :param: dataKey The wellness data key
+    ///
+    /// :return: The wellness data url based on key
+    ///
+    func getDataURL(dataKey: String) -> String? {
+        if(dataKey == "activities") {
+            return HumanAPIProperties.ACTIVITIES_URL
+        } else if(dataKey == "activitiesSummaries") {
+            return HumanAPIProperties.ACTIVITIES_SUMMARIES_URL
+        } else if(dataKey == "bloodGlucose") {
+            return HumanAPIProperties.BLOOD_GLUCOSE_URL
+        } else if(dataKey == "bloodOxygen") {
+            return HumanAPIProperties.BLOOD_OXYGEN_URL
+        } else if(dataKey == "bloodPressure") {
+            return HumanAPIProperties.BLOOD_PRESSURE_URL
+        } else if(dataKey == "bodyMassIndex") {
+            return HumanAPIProperties.BMI_URL
+        } else if(dataKey == "bodyFat") {
+            return HumanAPIProperties.BODY_FAT_URL
+        } else if(dataKey == "heartRate") {
+            return HumanAPIProperties.HEART_RATE_URL
+        } else if(dataKey == "heartRateSummaries") {
+            return HumanAPIProperties.HEART_RATE_SUMMARIES_URL
+        } else if(dataKey == "height") {
+            return HumanAPIProperties.HEIGHT_URL
+        } else if(dataKey == "weight") {
+            return HumanAPIProperties.WEIGHT_URL
+        } else if(dataKey == "locations") {
+            return HumanAPIProperties.LOCATIONS_URL
+        } else if(dataKey == "meals") {
+            return HumanAPIProperties.MEALS_URL
+        } else if(dataKey == "sleeps") {
+            return HumanAPIProperties.SLEEPS_URL
+        } else if(dataKey == "sleepSummaries") {
+            return HumanAPIProperties.SLEEP_SUMMARIES_URL
+        } else if(dataKey == "humanSummary") {
+            return HumanAPIProperties.HUMAN_SUMMARY_URL
+        } else if(dataKey == "profile") {
+            return HumanAPIProperties.HUMAN_PROFILE_URL
+        } else {
+            return nil
         }
     }
     
@@ -287,16 +331,6 @@ class HumanAPIModel: NSObject {
         }
     }
     
-    var humanData: [String: Any] {
-        get {
-            return self.humanDataSet
-        }
-        
-        set(humanDataSet) {
-            self.humanDataSet = humanDataSet
-        }
-    }
-    
     //*************************************************************************************
     
     // PARSE JSON FORMAT FOR HYBRID
@@ -304,14 +338,15 @@ class HumanAPIModel: NSObject {
     //*************************************************************************************
     
     ///
-    /// Converts HUMAN API data to JSON string for hybrid
+    /// Converts HUMAN API tokens data to JSON string for hybrid
     ///
     /// :param: pluginMsg The plugin msg if any
     ///
     /// :return: The converted HUMAN API data JSON String
     ///
-    public func getHumanAPIHybridData(pluginMsg: String) -> String {
+    public func getHumanAPIHybridTokensData(pluginMsg: String) -> String {
         var dataMap: [String : String] = [:]
+
         dataMap["clientId"] = clientId
         dataMap["clientSecret"] = clientSecret
         dataMap["userID"] = userId
@@ -319,7 +354,25 @@ class HumanAPIModel: NSObject {
         dataMap["sessionToken"] = sessionToken
         dataMap["publicToken"] = publicToken
         dataMap["accessToken"] = accessToken
-        dataMap["humanAPIData"] = humanData.toJSONString()
+        dataMap["pluginMsg"] = pluginMsg
+        
+        return dataMap.toJSONString()
+    }
+
+    ///
+    /// Converts HUMAN API data to JSON string for hybrid
+    ///
+    /// :param: humanAPIData The human API data
+    /// :param: key The data key
+    /// :param: pluginMsg The plugin msg if any
+    ///
+    /// :return: The converted HUMAN API data JSON String
+    ///
+    public func getHumanAPIHybridData(humanAPIData: String, key: String, pluginMsg: String) -> String {
+        var dataMap: [String : String] = [:]
+
+        dataMap["humanAPIData"] = humanAPIData
+        dataMap["key"] = key
         dataMap["pluginMsg"] = pluginMsg
         
         return dataMap.toJSONString()

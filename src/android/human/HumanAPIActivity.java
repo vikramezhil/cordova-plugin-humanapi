@@ -12,7 +12,6 @@ import android.content.res.Resources;
 
 import org.json.JSONObject;
 
-import org.apache.cordova.PluginResult;
 import org.apache.cordova.CallbackContext;
 
 import com.github.vikramezhil.cordova.HumanAPIPlugin;
@@ -34,16 +33,6 @@ public class HumanAPIActivity extends Activity {
     private Service service;
 
     private HumanAPIListener humanAPIListener;
-
-    public interface HumanAPIListener {
-        /**
-         * Sends an update with the human API data
-         * 
-         * @param success The success status
-         * @param humanAPIData The human API response data
-         */
-        void onHumanAPIUpdate(Boolean success, String humanAPIData);
-    }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -73,12 +62,12 @@ public class HumanAPIActivity extends Activity {
 
         service = new Service(this, new ServiceListener() {
             @Override
-            public void onServiceRunning(String passBackKey, Boolean serviceRunning) {
+            public void onServiceRunning(CallbackContext callbackContext, String passBackKey, Boolean serviceRunning) {
                 Log.wtf(TAG, "Service running status for " + passBackKey + " = " + serviceRunning);
             }
 
             @Override
-            public void onServiceResponse(String passBackKey, JSONObject serviceResponse) {
+            public void onServiceResponse(CallbackContext callbackContext, String passBackKey, String serviceResponse) {
                 if(passBackKey.equals(HumanAPIModel.humanAPITokenPassBackKey)) {
                     // Setting the tokens in the model data
                     humanAPIModel.setTokens(serviceResponse);
@@ -91,30 +80,22 @@ public class HumanAPIActivity extends Activity {
                     Log.wtf(TAG, "publicToken = " + humanAPIModel.getPublicToken());
                     Log.wtf(TAG, "accessToken = " + humanAPIModel.getAccessToken());
                     
-                    if(humanAPIModel.getAccessToken() == null) {
-                        humanAPIListener.onHumanAPIUpdate(false, humanAPIModel.getHumanAPIHybridData("Access token is null, unable to proceed"));
-
-                        finish();
-                    } else {
-                        // Getting the user human connected health data
-                        service.get(HumanAPIModel.humanAPIDataPassBackKey, humanAPIModel.getDataURL(), humanAPIModel.getDataHeader());
-                    }
-                } else if(passBackKey.equals(HumanAPIModel.humanAPIDataPassBackKey)) {
-                    // Setting the human data in the model
-                    humanAPIModel.setHumanData(serviceResponse);
-
                     // Sending back the human API data update
-                    humanAPIListener.onHumanAPIUpdate(true, humanAPIModel.getHumanAPIHybridData("Human API data got"));
-
-                    finish();
+                    if(humanAPIModel.getAccessToken() == null) {
+                        humanAPIListener.onHumanAPIUpdate(callbackContext, false, humanAPIModel.getHumanAPIHybridTokensData("Access token is null"));
+                    } else {     
+                        humanAPIListener.onHumanAPIUpdate(callbackContext, true, humanAPIModel.getHumanAPIHybridTokensData("Human API tokens got"));
+                    }
                 }
+
+                finish();
             }
 
             @Override
-            public void onServiceError(String passBackKey, String errorMessage) {
+            public void onServiceError(CallbackContext callbackContext, String passBackKey, String errorMessage) {
                 Log.wtf(TAG, "Service error for " + passBackKey + " = " + errorMessage);
 
-                humanAPIListener.onHumanAPIUpdate(false, humanAPIModel.getHumanAPIHybridData(errorMessage));
+                humanAPIListener.onHumanAPIUpdate(callbackContext, false, humanAPIModel.getHumanAPIHybridTokensData(errorMessage));
 
                 finish();
             }
@@ -134,11 +115,11 @@ public class HumanAPIActivity extends Activity {
                     humanAPIModel.setHumanAPIResponse(request.getUrl().toString());
 
                     // Getting the human API public token for the user
-                    service.post(HumanAPIModel.humanAPITokenPassBackKey, humanAPIModel.getTokenURL(), null, humanAPIModel.getTokenRequestBody());
+                    service.post(null, HumanAPIModel.humanAPITokenPassBackKey, humanAPIModel.getTokenURL(), null, humanAPIModel.getTokenRequestBody());
 
                     return true;
                 } else if(request.getUrl().toString().startsWith(humanAPIModel.getCloseURL())) {
-                    humanAPIListener.onHumanAPIUpdate(true, humanAPIModel.getHumanAPIHybridData("Human API page closed by user"));
+                    humanAPIListener.onHumanAPIUpdate(null, true, humanAPIModel.getHumanAPIHybridTokensData("Human API page closed by user"));
 
                     finish();
                     

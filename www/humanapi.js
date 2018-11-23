@@ -6,8 +6,12 @@ var pluginName = "HumanAPIPlugin";
  */
 function HumanAPIPlugin() {}
 
-HumanAPIPlugin.prototype.trigger = function (triggerType, clientID, clientSecret, userID, publicToken, accessToken, success, error) {
-    exec(success, error, pluginName, 'trigger', [triggerType, clientID, clientSecret, userID, publicToken, accessToken]);
+HumanAPIPlugin.prototype.auth = function (clientID, clientSecret, userID, publicToken, accessToken, success, error) {
+    exec(success, error, pluginName, 'auth', [clientID, clientSecret, userID, publicToken, accessToken]);
+};
+
+HumanAPIPlugin.prototype.execute = function (type, accessToken, success, error) {
+    exec(success, error, pluginName, 'execute', [type, accessToken]);
 };
 
 // Installation constructor that binds HumanAPIPlugin to window

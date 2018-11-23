@@ -1,5 +1,5 @@
 # cordova-plugin-humanapi
-humanapi Cordova Plugin for Android & IOS
+humanapi cordova plugin for android & ios
 
 <b><h2>Plugin installation</h2></b>
 

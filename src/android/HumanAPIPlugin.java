@@ -14,7 +14,8 @@ import android.util.Log;
 import android.content.Intent;
 
 import com.github.vikramezhil.cordova.human.HumanAPIActivity;
-import com.github.vikramezhil.cordova.human.HumanAPIActivity.HumanAPIListener;
+import com.github.vikramezhil.cordova.human.HumanAPIService;
+import com.github.vikramezhil.cordova.human.HumanAPIListener;
 
 /**
  * HumanAPIPlugin Android Controller Class
@@ -27,9 +28,14 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
 
     public static HumanAPIPlugin context;
 
+    private HumanAPIService humanAPIService;
+
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         context = this;
+
+        // Initializing the human API service
+        humanAPIService = new HumanAPIService(cordova.getActivity().getApplicationContext(), this);
     }
 
     @Override
@@ -44,7 +50,7 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
 
     //*************************************************************************************
 
-    // Active8mePlugins
+    // Plugin Executions
 
     //*************************************************************************************
 
@@ -52,8 +58,14 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         Log.wtf(TAG, "Native Action = " + action);
 
-        if (action.equals("trigger")) {
-            this.trigger(callbackContext, args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), args.getString(5));
+        if (action == null || action.isEmpty()) {
+            return false;
+        } else if (action.equals("auth")) {
+            this.auth(callbackContext, args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
+
+            return true;
+        } else if (action.equals("execute")) {
+            this.humanAPIService.start(callbackContext, args.getString(0), args.getString(1));
 
             return true;
         }
@@ -70,17 +82,15 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
     private CallbackContext humanAPICallbackContext;
 
     /**
-     * Triggers Human API 
+     * Triggers Human API Authentication
      * 
-     * @param callbackContext The callback context
-     * @param triggerType The human API trigger type
      * @param clientID The human API client ID
      * @param clientSecret The human API client secret
      * @param userID The human API user ID
      * @param publicToken The human API public token
      * @param accessToken The human API access token
      */
-    private void trigger(CallbackContext callbackContext, String triggerType, String clientID, String clientSecret, String userID, String publicToken, String accessToken) {
+    private void auth(CallbackContext callbackContext, String clientID, String clientSecret, String userID, String publicToken, String accessToken) {
         final CordovaInterface cordova = this.cordova;
 
         // Saving a reference of the human API callback context
@@ -106,11 +116,15 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
     // MARK: HumanAPIListener Methods
 
     @Override
-    public void onHumanAPIUpdate(Boolean success, String humanAPIData) {
+    public void onHumanAPIUpdate(CallbackContext callbackContext, Boolean success, String humanAPIData) {
+        PluginResult result = new PluginResult(success ?  PluginResult.Status.OK : PluginResult.Status.ERROR, humanAPIData);
+        result.setKeepCallback(true);
+
         if(humanAPICallbackContext != null) {
-            PluginResult result = new PluginResult(success ?  PluginResult.Status.OK : PluginResult.Status.ERROR, humanAPIData);
-            result.setKeepCallback(true);
             humanAPICallbackContext.sendPluginResult(result); 
+            humanAPICallbackContext = null;
+        } else if(callbackContext != null) {
+            callbackContext.sendPluginResult(result);
         }
     }
 }

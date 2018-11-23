@@ -1,6 +1,6 @@
 {
     "name": "cordova-plugin-humanapi",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Human API Plugin for Android and IOS",
     "cordova": {
       "id": "cordova-plugin-humanapi",
@@ -18,13 +18,16 @@
       "cordova-android",
       "cordova-ios",
       "cordova",
+      "cordova-plugin",
       "ionic",
+      "ionic-plugin",
       "android",
       "ios",
       "human",
       "humanapi",
       "human api",
-      "human-api"
+      "human-api",
+      "humanapi-plugin"
     ],
     "author": "Vikram Ezhil <vikram.ezhil.1988@gmail.com>",
     "license": "Apache 2.0",

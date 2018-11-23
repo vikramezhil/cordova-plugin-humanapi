@@ -42,6 +42,9 @@
         <source-file src="src/android/res/layout/activity_human.xml" target-dir="res/layout" />
         <source-file src="src/android/human/HumanAPIActivity.java" target-dir="src/com/github/vikramezhil/cordova/human" /> 
         <source-file src="src/android/human/HumanAPIModel.java" target-dir="src/com/github/vikramezhil/cordova/human" /> 
+        <source-file src="src/android/human/HumanAPIListener.java" target-dir="src/com/github/vikramezhil/cordova/human" /> 
+        <source-file src="src/android/human/HumanAPIProperties.java" target-dir="src/com/github/vikramezhil/cordova/human" /> 
+        <source-file src="src/android/human/HumanAPIService.java" target-dir="src/com/github/vikramezhil/cordova/human" /> 
     </platform>
     
     <platform name="ios">

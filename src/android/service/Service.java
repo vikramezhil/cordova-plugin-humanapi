@@ -14,10 +14,11 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.cordova.CallbackContext;
+
 import org.json.JSONObject;
 
 import java.util.Map;
-
 
 /**
  * Service class
@@ -35,26 +36,29 @@ public class Service {
         /**
          * Updates with the service running status
          *
+         * @param callbackContext The callback context
          * @param passBackKey The pass back key
          * @param serviceRunning The service running status
          */
-        void onServiceRunning(String passBackKey, Boolean serviceRunning);
+        void onServiceRunning(CallbackContext callbackContext, String passBackKey, Boolean serviceRunning);
 
         /**
          * Updates with the service response
          *
+         * @param callbackContext The callback context
          * @param passBackKey The pass back key
          * @param serviceResponse The service response
          */
-        void onServiceResponse(String passBackKey, JSONObject serviceResponse);
+        void onServiceResponse(CallbackContext callbackContext, String passBackKey, JSONObject serviceResponse);
 
         /**
          * Updates with the service error
          *
+         * @param callbackContext The callback context
          * @param passBackKey The pass back key
          * @param errorMessage The error message
          */
-        void onServiceError(String passBackKey, String errorMessage);
+        void onServiceError(CallbackContext callbackContext, String passBackKey, String errorMessage);
     }
 
     /**
@@ -71,6 +75,7 @@ public class Service {
     /**
      * Sends a POST request
      *
+     * @param callbackContext The callback context
      * @param passBackKey The pass back key
      * @param requestLink The request link
      * @param customHeaders The custom headers if any
@@ -78,7 +83,7 @@ public class Service {
      *
      * Listener Interface => ServiceListener
      */
-    public void post(final String passBackKey, final String requestLink, final Map<String, String> customHeaders, final JSONObject requestBody) {
+    public void post(final CallbackContext callbackContext, final String passBackKey, final String requestLink, final Map<String, String> customHeaders, final JSONObject requestBody) {
         try {
             Log.wtf(TAG, "Request type = POST");
             Log.wtf(TAG, "Pass back key = " + passBackKey);
@@ -88,7 +93,7 @@ public class Service {
                 Log.wtf(TAG, "Custom headers = " + customHeaders.toString());
             }
 
-            serviceListener.onServiceRunning(passBackKey, true);
+            serviceListener.onServiceRunning(callbackContext, passBackKey, true);
 
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             StringRequest request = new StringRequest(Request.Method.POST, requestLink, new Response.Listener<String>() {
@@ -96,12 +101,12 @@ public class Service {
                 public void onResponse(String response) {
                     Log.wtf(TAG, "Response = " + response);
 
-                    serviceListener.onServiceRunning(passBackKey, false);
+                    serviceListener.onServiceRunning(callbackContext, passBackKey, false);
 
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
 
-                        serviceListener.onServiceResponse(passBackKey, jsonResponse);
+                        serviceListener.onServiceResponse(callbackContext, passBackKey, jsonResponse);
                     } catch (Exception e) {
                         e.printStackTrace();
 
@@ -111,14 +116,14 @@ public class Service {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    serviceListener.onServiceRunning(passBackKey, false);
+                    serviceListener.onServiceRunning(callbackContext, passBackKey, false);
 
                     NetworkResponse response = error.networkResponse;
                     if (error instanceof ServerError && response != null) {
                         try {
                             String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
 
-                            serviceListener.onServiceError(passBackKey, res);
+                            serviceListener.onServiceError(callbackContext, passBackKey, res);
 
                             return;
                         } catch (Exception e) {
@@ -126,7 +131,7 @@ public class Service {
                         }
                     }
 
-                    serviceListener.onServiceError(passBackKey, error.getLocalizedMessage());
+                    serviceListener.onServiceError(callbackContext, passBackKey, error.getLocalizedMessage());
                 }
             }) {
                 @Override
@@ -166,21 +171,21 @@ public class Service {
         } catch (Exception e) {
             e.printStackTrace();
 
-            serviceListener.onServiceRunning(passBackKey, false);
+            serviceListener.onServiceRunning(callbackContext, passBackKey, false);
         }
     }
-
 
     /**
      * Sends a GET request
      *
+     * @param callbackContext The callback context
      * @param passBackKey The pass back key
      * @param requestLink The request link
      * @param customHeaders The custom headers if any
      *
      * Listener Interface => ServiceListener
      */
-    public void get(final String passBackKey, final String requestLink, final Map<String, String> customHeaders) {
+    public void get(final CallbackContext callbackContext, final String passBackKey, final String requestLink, final Map<String, String> customHeaders) {
         try {
             Log.wtf(TAG, "Request type = GET");
             Log.wtf(TAG, "Pass back key = " + passBackKey);
@@ -189,7 +194,7 @@ public class Service {
                 Log.wtf(TAG, "Custom headers = " + customHeaders.toString());
             }
 
-            serviceListener.onServiceRunning(passBackKey, true);
+            serviceListener.onServiceRunning(callbackContext, passBackKey, true);
 
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             StringRequest request = new StringRequest(Request.Method.GET, requestLink, new Response.Listener<String>() {
@@ -197,12 +202,12 @@ public class Service {
                 public void onResponse(String response) {
                     Log.wtf(TAG, "Response = " + response);
 
-                    serviceListener.onServiceRunning(passBackKey, false);
+                    serviceListener.onServiceRunning(callbackContext, passBackKey, false);
 
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
 
-                        serviceListener.onServiceResponse(passBackKey, jsonResponse);
+                        serviceListener.onServiceResponse(callbackContext, passBackKey, jsonResponse);
                     } catch (Exception e) {
                         e.printStackTrace();
 
@@ -212,14 +217,14 @@ public class Service {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    serviceListener.onServiceRunning(passBackKey, false);
+                    serviceListener.onServiceRunning(callbackContext, passBackKey, false);
 
                     NetworkResponse response = error.networkResponse;
                     if (error instanceof ServerError && response != null) {
                         try {
                             String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
 
-                            serviceListener.onServiceError(passBackKey, res);
+                            serviceListener.onServiceError(callbackContext, passBackKey, res);
 
                             return;
                         } catch (Exception e) {
@@ -227,7 +232,7 @@ public class Service {
                         }
                     }
 
-                    serviceListener.onServiceError(passBackKey, error.getLocalizedMessage());
+                    serviceListener.onServiceError(callbackContext, passBackKey, error.getLocalizedMessage());
                 }
             }) {
                 @Override
@@ -254,7 +259,7 @@ public class Service {
         } catch (Exception e) {
             e.printStackTrace();
 
-            serviceListener.onServiceRunning(passBackKey, false);
+            serviceListener.onServiceRunning(callbackContext, passBackKey, false);
         }
     }
 }

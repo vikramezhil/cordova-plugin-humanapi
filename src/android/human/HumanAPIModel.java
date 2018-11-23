@@ -10,6 +10,8 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
+import com.github.vikramezhil.cordova.human.HumanAPIProperties;
+
 /**
  * HumanAPI Model
  *
@@ -281,17 +283,51 @@ public class HumanAPIModel {
 
     //*************************************************************************************
 
-    static final String humanAPIDataPassBackKey = "humanAPIDataPassBackKey";
-    private static final String dataURL = "https://api.humanapi.co/v1/human";
-    private JSONObject humanData;
-
     /**
-     * Gets the data url
+     * Gets the data url based on key
      *
-     * @return The data url
+     * @param key The data key
+     *
+     * @return The data url based on key
      */
-    public String getDataURL() {
-        return dataURL;
+    public String getDataURL(String key) {
+        if(key.equals("activities")) {
+            return HumanAPIProperties.ACTIVITIES_URL;
+        } else if(key.equals("activitiesSummaries")) {
+            return HumanAPIProperties.ACTIVITIES_SUMMARIES_URL;
+        } else if(key.equals("bloodGlucose")) {
+            return HumanAPIProperties.BLOOD_GLUCOSE_URL;
+        } else if(key.equals("bloodOxygen")) {
+            return HumanAPIProperties.BLOOD_OXYGEN_URL;
+        } else if(key.equals("bloodPressure")) {
+            return HumanAPIProperties.BLOOD_PRESSURE_URL;
+        } else if(key.equals("bodyMassIndex")) {
+            return HumanAPIProperties.BMI_URL;
+        } else if(key.equals("bodyFat")) {
+            return HumanAPIProperties.BODY_FAT_URL;
+        } else if(key.equals("heartRate")) {
+            return HumanAPIProperties.HEART_RATE_URL;
+        } else if(key.equals("heartRateSummaries")) {
+            return HumanAPIProperties.HEART_RATE_SUMMARIES_URL;
+        } else if(key.equals("height")) {
+            return HumanAPIProperties.HEIGHT_URL;
+        } else if(key.equals("weight")) {
+            return HumanAPIProperties.WEIGHT_URL;
+        } else if(key.equals("locations")) {
+            return HumanAPIProperties.LOCATIONS_URL;
+        } else if(key.equals("meals")) {
+            return HumanAPIProperties.MEALS_URL;
+        } else if(key.equals("sleeps")) {
+            return HumanAPIProperties.SLEEPS_URL;
+        } else if(key.equals("sleepSummaries")) {
+            return HumanAPIProperties.SLEEP_SUMMARIES_URL;
+        } else if(key.equals("humanSummary")) {
+            return HumanAPIProperties.HUMAN_SUMMARY_URL;
+        } else if(key.equals("profile")) {
+            return HumanAPIProperties.HUMAN_PROFILE_URL;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -307,24 +343,6 @@ public class HumanAPIModel {
         return header;
     }
 
-    /**
-     * Sets the human data
-     * 
-     * @param humanData The human data
-     */
-    public void setHumanData(JSONObject humanData) {
-        this.humanData = humanData;
-    }
-
-    /**
-     * Gets the human data
-     * 
-     * @return The human data
-     */
-    private JSONObject getHumanData() {
-        return this.humanData;
-    }
-
     //*************************************************************************************
 
     // PARSE JSON FORMAT FOR HYBRID
@@ -332,13 +350,13 @@ public class HumanAPIModel {
     //*************************************************************************************
 
     /**
-     * Converts HUMAN API data to JSON string for hybrid
+     * Converts HUMAN API tokens data to JSON string for hybrid
      *
      * @param pluginMsg The plugin msg if any
      * 
-     * @return The converted HUMAN API data JSON String
+     * @return The converted HUMAN API tokens data JSON String
      */
-    public String getHumanAPIHybridData(String pluginMsg) {
+    public String getHumanAPIHybridTokensData(String pluginMsg) {
         HashMap<String, String> dataMap = new HashMap<String, String>();
 
         dataMap.put("clientID", getClientId());
@@ -348,9 +366,39 @@ public class HumanAPIModel {
         dataMap.put("sessionToken", getSessionToken());
         dataMap.put("publicToken", getPublicToken());
         dataMap.put("accessToken", getAccessToken());
-        dataMap.put("humanAPIData", getHumanData() == null ? "" : getHumanData().toString());
         dataMap.put("pluginMsg", pluginMsg);
 
-        return new Gson().toJson(dataMap);
+        try {
+            return new Gson().toJson(dataMap);
+        } catch(Exception e) {
+            e.printStackTrace();
+
+            return "Data conversion error";
+        }
+    }
+
+    /**
+     * Converts HUMAN API data to JSON string for hybrid
+     *
+     * @param humanData The human data
+     * @param key The data key
+     * @param pluginMsg The plugin msg if any
+     * 
+     * @return The converted HUMAN API data JSON String
+     */
+    public String getHumanAPIHybridData(JSONObject humanData, String key, String pluginMsg) {
+        HashMap<String, String> dataMap = new HashMap<String, String>();
+
+        dataMap.put("key", key);
+        dataMap.put("humanAPIData", humanData == null ? "" : String.valueOf(humanData));
+        dataMap.put("pluginMsg", pluginMsg);
+
+        try {
+            return new Gson().toJson(dataMap);
+        } catch(Exception e) {
+            e.printStackTrace();
+
+            return "Data conversion error";
+        }
     }
 }

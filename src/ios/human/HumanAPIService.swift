@@ -12,7 +12,7 @@ class HumanAPIService: NSObject, ServiceDelegate {
     private var service: Service = Service()
     private var humanAPIModel: HumanAPIModel = HumanAPIModel()
 
-    var humanAPIVCDelegate: HumanAPIVCDelegate?
+    weak var humanAPIServiceDelegate: HumanAPIVCDelegate?
 
     ///
     /// Initializer

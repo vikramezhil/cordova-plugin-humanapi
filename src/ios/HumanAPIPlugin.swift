@@ -15,16 +15,16 @@ import UIKit
 
     var storyboard: UIStoryboard?
 
-    private var humanAPIService: HumanAPIService = HumanAPIService()
+    private var humanAPIService: HumanAPIService?
 
     override func pluginInitialize() {
         super.pluginInitialize()
 
         // Initializing the storyboard
         storyboard = UIStoryboard(name: "Human", bundle: nil)
-
-        // Initializing the delegate for the human service
-        humanAPIService.humanAPIVCDelegate = self
+        
+        humanAPIService = HumanAPIService()
+        humanAPIService?.humanAPIServiceDelegate = self
     }
 
     //*************************************************************************************
@@ -73,7 +73,7 @@ import UIKit
     @objc(execute:)
     func execute(command: CDVInvokedUrlCommand) {
         if let wellnessKey = command.arguments[0] as? String, let token = command.arguments[1] as? String {
-            humanAPIService.execute(command: command, key: wellnessKey, accessToken: token)
+            humanAPIService?.execute(command: command, key: wellnessKey, accessToken: token)
         }
     }
 

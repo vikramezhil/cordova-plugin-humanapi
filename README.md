@@ -46,7 +46,7 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
       alert("Error = " + error)
     })
     
-<b><h2>Authentication Data Format</h2></b>
+<b>Authentication Data Format</b>
 
     {
       clientID: "CLIENT_ID",
@@ -78,7 +78,7 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
       alert("Error = " + error)
     })
 
-<b><h2>Wellness Supported API's & Data Format</h2></b>
+<b>Wellness Supported API's & Data Format</b>
 
 Currently the plugin supports 17 wellness API's (excluding Genetic Traits & Genotypes). Please refer for the list of wellness API's and data formats [here](https://reference.humanapi.co/v2.1/reference#wellness-api-introduction)
 

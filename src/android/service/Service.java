@@ -49,7 +49,7 @@ public class Service {
          * @param passBackKey The pass back key
          * @param serviceResponse The service response
          */
-        void onServiceResponse(CallbackContext callbackContext, String passBackKey, JSONObject serviceResponse);
+        void onServiceResponse(CallbackContext callbackContext, String passBackKey, String serviceResponse);
 
         /**
          * Updates with the service error
@@ -103,15 +103,7 @@ public class Service {
 
                     serviceListener.onServiceRunning(callbackContext, passBackKey, false);
 
-                    try {
-                        JSONObject jsonResponse = new JSONObject(response);
-
-                        serviceListener.onServiceResponse(callbackContext, passBackKey, jsonResponse);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                        Log.e(TAG, "Could not parse malformed JSON: " + response);
-                    }
+                    serviceListener.onServiceResponse(callbackContext, passBackKey, response);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -204,15 +196,7 @@ public class Service {
 
                     serviceListener.onServiceRunning(callbackContext, passBackKey, false);
 
-                    try {
-                        JSONObject jsonResponse = new JSONObject(response);
-
-                        serviceListener.onServiceResponse(callbackContext, passBackKey, jsonResponse);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                        Log.e(TAG, "Could not parse malformed JSON: " + response);
-                    }
+                    serviceListener.onServiceResponse(callbackContext, passBackKey, response);
                 }
             }, new Response.ErrorListener() {
                 @Override

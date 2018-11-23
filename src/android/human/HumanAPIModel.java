@@ -81,16 +81,18 @@ public class HumanAPIModel {
      *
      * @param tokenResponse The token service response
      */
-    public void setTokens(JSONObject tokenResponse) {
+    public void setTokens(String tokenResponse) {
         try {
-            if(tokenResponse.has("accessToken")) {
-                this.accessToken = tokenResponse.getString("accessToken");
+            JSONObject parseTokenResponse = new JSONObject(tokenResponse);
+
+            if(parseTokenResponse.has("accessToken")) {
+                this.accessToken = parseTokenResponse.getString("accessToken");
             } else {
                 this.accessToken = null;
             }
 
-            if(tokenResponse.has("publicToken")) {
-                this.publicToken = tokenResponse.getString("publicToken");
+            if(parseTokenResponse.has("publicToken")) {
+                this.publicToken = parseTokenResponse.getString("publicToken");
             } else {
                 this.publicToken = null;
             }
@@ -359,16 +361,16 @@ public class HumanAPIModel {
     public String getHumanAPIHybridTokensData(String pluginMsg) {
         HashMap<String, String> dataMap = new HashMap<String, String>();
 
-        dataMap.put("clientID", getClientId());
-        dataMap.put("clientSecret", getClientSecret());
-        dataMap.put("userID", getUserId());
-        dataMap.put("humanID", getHumanId());
-        dataMap.put("sessionToken", getSessionToken());
-        dataMap.put("publicToken", getPublicToken());
-        dataMap.put("accessToken", getAccessToken());
-        dataMap.put("pluginMsg", pluginMsg);
-
         try {
+            dataMap.put("clientID", getClientId());
+            dataMap.put("clientSecret", getClientSecret());
+            dataMap.put("userID", getUserId());
+            dataMap.put("humanID", getHumanId());
+            dataMap.put("sessionToken", getSessionToken());
+            dataMap.put("publicToken", getPublicToken());
+            dataMap.put("accessToken", getAccessToken());
+            dataMap.put("pluginMsg", pluginMsg);
+
             return new Gson().toJson(dataMap);
         } catch(Exception e) {
             e.printStackTrace();
@@ -380,20 +382,20 @@ public class HumanAPIModel {
     /**
      * Converts HUMAN API data to JSON string for hybrid
      *
-     * @param humanData The human data
+     * @param humanAPIData The human API data
      * @param key The data key
      * @param pluginMsg The plugin msg if any
      * 
      * @return The converted HUMAN API data JSON String
      */
-    public String getHumanAPIHybridData(JSONObject humanData, String key, String pluginMsg) {
+    public String getHumanAPIHybridData(String humanAPIData, String key, String pluginMsg) {
         HashMap<String, String> dataMap = new HashMap<String, String>();
 
-        dataMap.put("key", key);
-        dataMap.put("humanAPIData", humanData == null ? "" : String.valueOf(humanData));
-        dataMap.put("pluginMsg", pluginMsg);
-
         try {
+            dataMap.put("key", key);
+            dataMap.put("humanAPIData", humanAPIData);
+            dataMap.put("pluginMsg", pluginMsg);
+
             return new Gson().toJson(dataMap);
         } catch(Exception e) {
             e.printStackTrace();

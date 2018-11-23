@@ -40,7 +40,9 @@ public class HumanAPIService {
             }
 
             @Override
-            public void onServiceResponse(CallbackContext callbackContext, String passBackKey, JSONObject serviceResponse) {
+            public void onServiceResponse(CallbackContext callbackContext, String passBackKey, String serviceResponse) {
+                Log.wtf(TAG, "Service response for " + passBackKey + " = " + serviceResponse);
+
                 humanAPIListener.onHumanAPIUpdate(callbackContext, true, humanAPIModel.getHumanAPIHybridData(serviceResponse, passBackKey, "Data got"));
             }
 

@@ -67,7 +67,7 @@ public class HumanAPIActivity extends Activity {
             }
 
             @Override
-            public void onServiceResponse(CallbackContext callbackContext, String passBackKey, JSONObject serviceResponse) {
+            public void onServiceResponse(CallbackContext callbackContext, String passBackKey, String serviceResponse) {
                 if(passBackKey.equals(HumanAPIModel.humanAPITokenPassBackKey)) {
                     // Setting the tokens in the model data
                     humanAPIModel.setTokens(serviceResponse);
@@ -82,7 +82,7 @@ public class HumanAPIActivity extends Activity {
                     
                     // Sending back the human API data update
                     if(humanAPIModel.getAccessToken() == null) {
-                        humanAPIListener.onHumanAPIUpdate(callbackContext, false, humanAPIModel.getHumanAPIHybridTokensData("Access token is null, unable to proceed"));
+                        humanAPIListener.onHumanAPIUpdate(callbackContext, false, humanAPIModel.getHumanAPIHybridTokensData("Access token is null"));
                     } else {     
                         humanAPIListener.onHumanAPIUpdate(callbackContext, true, humanAPIModel.getHumanAPIHybridTokensData("Tokens got"));
                     }

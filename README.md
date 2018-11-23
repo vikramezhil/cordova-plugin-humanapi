@@ -39,8 +39,8 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
 
 <b>Ionic 2+</b>
 
-    var humanAPI: any = window
-    humanAPI.plugin.humanapi.auth("CLIENT_ID", "CLIENT_SECRET", "USER_ID", "PUBLIC_TOKEN", "ACCESS_TOKEN", (result) => {
+    var human: any = window
+    human.plugin.humanapi.auth("CLIENT_ID", "CLIENT_SECRET", "USER_ID", "PUBLIC_TOKEN", "ACCESS_TOKEN", (result) => {
       alert("Result = " + result)
     }, (error) => {
       alert("Error = " + error)
@@ -71,8 +71,8 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
 
 <b>Ionic 2+</b>
 
-    var humanAPI: any = window
-    humanAPI.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", (result) => {
+    var human: any = window
+    human.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", (result) => {
       alert("Result = " + result)
     }, (error) => {
       alert("Error = " + error)

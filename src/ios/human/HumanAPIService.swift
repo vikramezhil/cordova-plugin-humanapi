@@ -32,7 +32,7 @@ class HumanAPIService: NSObject, ServiceDelegate {
     ///
     func execute(command: CDVInvokedUrlCommand, key: String, accessToken: String) {
         if(accessToken.count == 0) {
-            humanAPIVCDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: key, pluginMsg: "Access token is empty"))
+            humanAPIServiceDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: key, pluginMsg: "Access token is empty"))
         } else {
             if let url = humanAPIModel.getDataURL(dataKey: key) {
                 // Saving the access token in the human api model
@@ -40,7 +40,7 @@ class HumanAPIService: NSObject, ServiceDelegate {
 
                 service.get(command: command, passbackKey: key, requestLink: url, customHeaders: humanAPIModel.dataHeader)
             } else {
-                humanAPIVCDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: key, pluginMsg: "Unknown data key, unable to generate url"))
+                humanAPIServiceDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: key, pluginMsg: "Unknown data key, unable to generate url"))
             }
         }
     }
@@ -54,12 +54,12 @@ class HumanAPIService: NSObject, ServiceDelegate {
     func onServiceResponse(command: CDVInvokedUrlCommand?, passBackKey: String, serviceResponse: String) {
         print(TAG, "Service success for \(passBackKey) = \(serviceResponse)")
         
-        humanAPIVCDelegate?.onHumanAPIUpdate(command: command, success: true, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: serviceResponse, key: passBackKey, pluginMsg: "Human API Wellness data got"))
+        humanAPIServiceDelegate?.onHumanAPIUpdate(command: command, success: true, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: serviceResponse, key: passBackKey, pluginMsg: "Human API Wellness data got"))
     }
     
     func onServiceError(command: CDVInvokedUrlCommand?, passBackKey: String, errorMessage: String) {
         print(TAG, "Service error for \(passBackKey) = \(errorMessage)")
         
-        humanAPIVCDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: passBackKey, pluginMsg: errorMessage))
+        humanAPIServiceDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: passBackKey, pluginMsg: errorMessage))
     }
 }

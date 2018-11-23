@@ -27,6 +27,8 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
 
 <b><h2>Usage</h2></b>
 
+<b><h3>Authentication</h3></b>
+
 <b>Cordova, Ionic 1</b>
 
     window.plugin.humanapi.auth("CLIENT_ID", "CLIENT_SECRET", "USER_ID", "PUBLIC_TOKEN", "ACCESS_TOKEN", function(result) {
@@ -44,7 +46,7 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
       alert("Error = " + error)
     })
     
-<b><h2>Plugin Data Format</h2></b>
+<b><h2>Authentication Data Format</h2></b>
 
     {
       clientID: "CLIENT_ID",
@@ -56,4 +58,28 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
       accessToken: "ACCESS_TOKEN", 
       pluginMsg: "The plugin message if any"
     }
+    
+<b><h3>Wellness Data</h3></b>
 
+<b>Cordova, Ionic 1</b>
+
+    window.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", function(result) {
+        alert("Result = " + result)
+    }, function(error) {
+        alert("Error = " + error)
+    })
+
+<b>Ionic 2+</b>
+
+    var humanAPI: any = window
+    humanAPI.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", (result) => {
+      alert("Result = " + result)
+    }, (error) => {
+      alert("Error = " + error)
+    })
+
+<b><h2>Wellness Supported API's & Data Format</h2></b>
+
+Currently the plugin supports 17 wellness API's (excluding Genetic Traits & Genotypes). Please refer for the list of wellness API's and data formats [here](https://reference.humanapi.co/v2.1/reference#wellness-api-introduction)
+
+For plugin examples, please refer [here](https://github.com/vikramezhil/cordova-plugin-humanapi/wiki/6.-API-calls)

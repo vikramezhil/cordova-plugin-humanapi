@@ -9,15 +9,22 @@ import Foundation
 import UIKit
 
 @objc(HumanAPIPlugin) class HumanAPIPlugin: CDVPlugin, HumanAPIVCDelegate {
+    private let TAG: String = "HumanAPIPlugin"
+
     var command: CDVInvokedUrlCommand?
 
     var storyboard: UIStoryboard?
+
+    private var humanAPIService: HumanAPIService = HumanAPIService()
 
     override func pluginInitialize() {
         super.pluginInitialize()
 
         // Initializing the storyboard
         storyboard = UIStoryboard(name: "Human", bundle: nil)
+
+        // Initializing the delegate for the human service
+        humanAPIService.humanAPIVCDelegate = self
     }
 
     //*************************************************************************************
@@ -30,17 +37,18 @@ import UIKit
     private var humanCDVContext: CDVInvokedUrlCommand?
 
     ///
-    /// Triggers Human API
+    /// Triggers Human API Authentication
     ///
     /// :param: command The cdv url command instance
     ///
-    @objc(trigger:)
-    func trigger(command: CDVInvokedUrlCommand) {
+    @objc(auth:)
+    func auth(command: CDVInvokedUrlCommand) {
         // Saving a reference of the human API command invoke context
         humanCDVContext = command
 
-        if let _ = command.arguments[0] as? String, let clientID = command.arguments[1] as? String, let clientSecret = command.arguments[2] as? String,
-            let userID = command.arguments[3] as? String, let publicToken = command.arguments[4] as? String, let accessToken = command.arguments[5] as? String {
+        if let clientID = command.arguments[0] as? String, let clientSecret = command.arguments[1] as? String,
+            let userID = command.arguments[2] as? String, let publicToken = command.arguments[3] as? String, 
+                let accessToken = command.arguments[4] as? String {
             humanAPIVC = storyboard?.instantiateViewController(withIdentifier: "humanAPIVC") as? HumanAPIVC
             humanAPIVC?.humanAPIVCDelegate = self
             humanAPIVC?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -57,14 +65,31 @@ import UIKit
         }
     }
 
+    ///
+    /// Executes the human API wellness services
+    ///
+    /// :param: command The cdv url command instance
+    ///
+    @objc(execute:)
+    func execute(command: CDVInvokedUrlCommand) {
+        if let wellnessKey = command.arguments[0] as? String, let token = command.arguments[1] as? String {
+            humanAPIService.execute(command: command, key: wellnessKey, accessToken: token)
+        }
+    }
+
     // @Override HumanAPIVCDelegate Methods
 
-    func onHumanAPIUpdate(success: Bool, humanAPIData: String) {
+    func onHumanAPIUpdate(command: CDVInvokedUrlCommand?, success: Bool, humanAPIData: String) {
         let result = CDVPluginResult(status: success ? CDVCommandStatus_OK : CDVCommandStatus_ERROR, messageAs: humanAPIData)
         result?.setKeepCallbackAs(true)
 
-        if let cdvUrl = humanCDVContext {
+        if let humanCDVUrl = humanCDVContext {
+            self.commandDelegate!.send(result, callbackId: humanCDVUrl.callbackId)
+            humanCDVContext = nil
+        } else if let cdvUrl = command {
             self.commandDelegate!.send(result, callbackId: cdvUrl.callbackId)
+        } else {
+            print(TAG, "Unable to send back data, callback ID is nil")
         }
     }
 }

@@ -7,16 +7,6 @@
 import UIKit
 import WebKit
 
-protocol HumanAPIVCDelegate: class {
-    ///
-    /// Sends an update with the human API data
-    ///
-    /// :param: success The success status
-    /// :param: humanAPIData The human API response data
-    ///
-    func onHumanAPIUpdate(success: Bool, humanAPIData: String)
-}
-
 class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceDelegate {
     private let TAG: String = "HumanAPIVC"
     
@@ -119,9 +109,9 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
                 humanAPIModel.setHumanAPIResponse(response: requestUrl)
                 
                 // Getting the human API public token for the user
-                service.post(passbackKey: HumanAPIModel.humanAPITokenPassBackKey, requestLink: humanAPIModel.tokenUrl, customHeaders: [:], requestBody: humanAPIModel.getTokenRequestBody())
+                service.post(command: nil, passbackKey: HumanAPIModel.humanAPITokenPassBackKey, requestLink: humanAPIModel.tokenUrl, customHeaders: [:], requestBody: humanAPIModel.getTokenRequestBody())
             } else if(newUrl.hasPrefix(humanAPIModel.closeUrl)) {
-                humanAPIVCDelegate?.onHumanAPIUpdate(success: true, humanAPIData: humanAPIModel.getHumanAPIHybridData(pluginMsg: "Human API page closed by user"))
+                humanAPIVCDelegate?.onHumanAPIUpdate(command: nil, success: true, humanAPIData: humanAPIModel.getHumanAPIHybridTokensData(pluginMsg: "Human API page closed by user"))
                 
                 decisionHandler(.cancel)
                 
@@ -162,18 +152,18 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        humanAPIVCDelegate?.onHumanAPIUpdate(success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(pluginMsg: "Web API load error = \(error.localizedDescription)"))
+        humanAPIVCDelegate?.onHumanAPIUpdate(command: nil, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridTokensData(pluginMsg: "Web API load error = \(error.localizedDescription)"))
         
         self.dismiss(animated: true, completion: nil)
     }
     
     // @Override ServiceDelegate Methods
     
-    func onServiceRunning(passBackKey: String, serviceRunning: Bool) {
+    func onServiceRunning(command: CDVInvokedUrlCommand?, passBackKey: String, serviceRunning: Bool) {
         print(TAG, "Service running status for \(passBackKey) = \(serviceRunning)")
     }
     
-    func onServiceResponse(passBackKey: String, serviceResponse: [String: Any]) {
+    func onServiceResponse(command: CDVInvokedUrlCommand?, passBackKey: String, serviceResponse: String) {
         print(TAG, "Service success for \(passBackKey) = \(serviceResponse)")
         
         switch passBackKey {
@@ -191,25 +181,13 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
                 print(TAG, "accessToken = \(humanAPIModel.accessToken)");
                 
                 if(humanAPIModel.accessToken.count == 0) {
-                    humanAPIVCDelegate?.onHumanAPIUpdate(success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(pluginMsg: "Access token is empty, unable to proceed"))
-                    
-                    self.dismiss(animated: true, completion: nil)
+                    humanAPIVCDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridTokensData(pluginMsg: "Access token is empty"))
                 } else {
-                    // Getting the user human connected health data
-                    service.get(passbackKey: HumanAPIModel.humanAPIDataPassBackKey, requestLink: humanAPIModel.dataUrl, customHeaders: humanAPIModel.dataHeader)
+                    humanAPIVCDelegate?.onHumanAPIUpdate(command: command, success: true, humanAPIData: humanAPIModel.getHumanAPIHybridTokensData(pluginMsg: "Human API tokens got"))
                 }
                 
-                break
-            
-            case HumanAPIModel.humanAPIDataPassBackKey:
-                
-                // Setting the human data in the model
-                humanAPIModel.humanData = serviceResponse
-                
-                humanAPIVCDelegate?.onHumanAPIUpdate(success: true, humanAPIData: humanAPIModel.getHumanAPIHybridData(pluginMsg: "Human API data got"))
-                
                 self.dismiss(animated: true, completion: nil)
-                
+
                 break
             
             default:
@@ -217,10 +195,10 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
         }
     }
     
-    func onServiceError(passBackKey: String, errorMessage: String) {
+    func onServiceError(command: CDVInvokedUrlCommand?, passBackKey: String, errorMessage: String) {
         print(TAG, "Service error for \(passBackKey) = \(errorMessage)")
         
-        humanAPIVCDelegate?.onHumanAPIUpdate(success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(pluginMsg: errorMessage))
+        humanAPIVCDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridTokensData(pluginMsg: errorMessage))
         
         self.dismiss(animated: true, completion: nil)
     }

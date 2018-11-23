@@ -65,7 +65,7 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
 
             return true;
         } else if (action.equals("execute")) {
-            this.humanAPIService.start(callbackContext, args.getString(0), args.getString(1));
+            this.humanAPIService.execute(callbackContext, args.getString(0), args.getString(1));
 
             return true;
         }
@@ -125,6 +125,8 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
             humanAPICallbackContext = null;
         } else if(callbackContext != null) {
             callbackContext.sendPluginResult(result);
+        } else {
+             Log.wtf(TAG, "Unable to send back data, callbackContext is null");
         }
     }
 }

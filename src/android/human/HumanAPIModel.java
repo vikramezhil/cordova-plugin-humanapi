@@ -286,11 +286,11 @@ public class HumanAPIModel {
     //*************************************************************************************
 
     /**
-     * Gets the data url based on key
+     * Gets the wellness data url based on key
      *
-     * @param key The data key
+     * @param key The wellness data key
      *
-     * @return The data url based on key
+     * @return The wellness data url based on key
      */
     public String getDataURL(String key) {
         if(key.equals("activities")) {
@@ -392,8 +392,8 @@ public class HumanAPIModel {
         HashMap<String, String> dataMap = new HashMap<String, String>();
 
         try {
-            dataMap.put("key", key);
             dataMap.put("humanAPIData", humanAPIData);
+            dataMap.put("key", key);
             dataMap.put("pluginMsg", pluginMsg);
 
             return new Gson().toJson(dataMap);

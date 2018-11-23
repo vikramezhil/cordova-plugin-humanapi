@@ -84,7 +84,7 @@ public class HumanAPIActivity extends Activity {
                     if(humanAPIModel.getAccessToken() == null) {
                         humanAPIListener.onHumanAPIUpdate(callbackContext, false, humanAPIModel.getHumanAPIHybridTokensData("Access token is null"));
                     } else {     
-                        humanAPIListener.onHumanAPIUpdate(callbackContext, true, humanAPIModel.getHumanAPIHybridTokensData("Tokens got"));
+                        humanAPIListener.onHumanAPIUpdate(callbackContext, true, humanAPIModel.getHumanAPIHybridTokensData("Human API tokens got"));
                     }
                 }
 

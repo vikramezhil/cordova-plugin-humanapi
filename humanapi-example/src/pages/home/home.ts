@@ -50,6 +50,7 @@ export class HomePage {
    * Gets the welness data
    */
   getWellnessData() {
+    // Resetting the wellness screen data
     this.wellnessScreenData = []
 
     var userTokens: HumanAPITokenData = {publicToken: "", accessToken: ""}

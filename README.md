@@ -101,6 +101,24 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
 
 <b><h3>Wellness Supported API's & Data Format</h3></b>
 
+    {
+      humanAPIData: "WELLNESS_API_DATA",
+      key: "PASSED_KEY",
+      pluginMsg: "The plugin message if any",
+    }
+
 Currently the plugin supports 17 wellness API's (excluding Genetic Traits & Genotypes). Please refer for the list of wellness API's and data formats [here](https://reference.humanapi.co/v2.1/reference#wellness-api-introduction)
+
+<b><h3>Sources Data Format</h3></b>
+
+    {
+      humanAPIData: "SOURCES_API_DATA",
+      key: "PASSED_KEY",
+      pluginMsg: "The plugin message if any",
+    }
+
+Please refer to sources data format [here](https://reference.humanapi.co/v2.1/reference#sources)
+
+<b><h3>Examples</h3></b>
 
 For plugin examples, please refer [here](https://github.com/vikramezhil/cordova-plugin-humanapi/wiki/6.-API-calls)

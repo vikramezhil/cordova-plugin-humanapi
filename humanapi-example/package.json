@@ -25,6 +25,7 @@
     "@ionic-native/status-bar": "~4.18.0",
     "@ionic/storage": "2.2.0",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-humanapi": "1.0.3",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^2.3.1",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -50,7 +51,8 @@
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-humanapi": {}
     },
     "platforms": []
   }

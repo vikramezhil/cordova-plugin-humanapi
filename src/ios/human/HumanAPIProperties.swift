@@ -25,31 +25,31 @@ struct HumanAPIProperties {
     static let ACTIVITIES_SUMMARIES_URL = "https://api.humanapi.co/v1/human/activities/summaries"
 
     // https://reference.humanapi.co/v2.1/reference#blood-glucose
-    static let BLOOD_GLUCOSE_URL = "https://api.humanapi.co/v1/human/blood_glucose"
+    static let BLOOD_GLUCOSE_URL = "https://api.humanapi.co/v1/human/blood_glucose/readings"
 
     // https://reference.humanapi.co/v2.1/reference#blood-oxygen
-    static let BLOOD_OXYGEN_URL = "https://api.humanapi.co/v1/human/blood_oxygen"
+    static let BLOOD_OXYGEN_URL = "https://api.humanapi.co/v1/human/blood_oxygen/readings"
 
     // https://reference.humanapi.co/v2.1/reference#blood-pressure
-    static let BLOOD_PRESSURE_URL = "https://api.humanapi.co/v1/human/blood_pressure"
+    static let BLOOD_PRESSURE_URL = "https://api.humanapi.co/v1/human/blood_pressure/readings"
 
     // https://reference.humanapi.co/v2.1/reference#body-mass-index-bmi
-    static let BMI_URL = "https://api.humanapi.co/v1/human/bmi"
+    static let BMI_URL = "https://api.humanapi.co/v1/human/bmi/readings"
 
     // https://reference.humanapi.co/v2.1/reference#body-fat
-    static let BODY_FAT_URL = "https://api.humanapi.co/v1/human/body_fat"
+    static let BODY_FAT_URL = "https://api.humanapi.co/v1/human/body_fat/readings"
 
     // https://reference.humanapi.co/v2.1/reference#heart-rate
-    static let HEART_RATE_URL = "https://api.humanapi.co/v1/human/heart_rate"
+    static let HEART_RATE_URL = "https://api.humanapi.co/v1/human/heart_rate/readings"
 
     // https://reference.humanapi.co/v2.1/reference#heart-rate-summaries
     static let HEART_RATE_SUMMARIES_URL = "https://api.humanapi.co/v1/human/heart_rate/summaries"
 
     // https://reference.humanapi.co/v2.1/reference#height
-    static let HEIGHT_URL = "https://api.humanapi.co/v1/human/height"
+    static let HEIGHT_URL = "https://api.humanapi.co/v1/human/height/readings"
 
     // https://reference.humanapi.co/v2.1/reference#weight
-    static let WEIGHT_URL = "https://api.humanapi.co/v1/human/weight"
+    static let WEIGHT_URL = "https://api.humanapi.co/v1/human/weight/readings"
 
     // https://reference.humanapi.co/v2.1/reference#locations
     static let LOCATIONS_URL = "https://api.humanapi.co/v1/human/locations"
@@ -68,4 +68,7 @@ struct HumanAPIProperties {
 
     // https://reference.humanapi.co/v2.1/reference#profile-1
     static let HUMAN_PROFILE_URL = "https://api.humanapi.co/v1/human/profile"
+
+    // https://reference.humanapi.co/v2.1/reference#sources
+    static let HUMAN_SOURCE_URL = "https://api.humanapi.co/v1/human/sources"
 }

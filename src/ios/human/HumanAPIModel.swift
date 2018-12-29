@@ -317,6 +317,8 @@ class HumanAPIModel: NSObject {
             return HumanAPIProperties.HUMAN_SUMMARY_URL
         } else if(dataKey == "profile") {
             return HumanAPIProperties.HUMAN_PROFILE_URL
+        } else if(dataKey == "sources") {
+            return HumanAPIProperties.HUMAN_SOURCE_URL
         } else {
             return nil
         }

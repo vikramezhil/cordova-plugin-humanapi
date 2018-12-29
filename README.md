@@ -1,4 +1,4 @@
-# cordova-plugin-humanapi
+# cordova-plugin-humanapi v1.0.2
 humanapi cordova plugin for android & ios
 
 <b><h2>Plugin installation</h2></b>
@@ -49,7 +49,7 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
         alert("Error = " + error)
     })
 
-<b>Source Data</b>
+<b>Sources Data</b>
 
     window.plugin.humanapi.execute("sources", "ACCESS_TOKEN", function(result) {
         alert("Result = " + result)
@@ -77,7 +77,7 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
       alert("Error = " + error)
     })
     
-<b>Source Data</b>
+<b>Sources Data</b>
 
     var human: any = window
     human.plugin.humanapi.execute("sources", "ACCESS_TOKEN", (result) => {
@@ -104,7 +104,7 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
     {
       humanAPIData: "WELLNESS_API_DATA",
       key: "PASSED_KEY",
-      pluginMsg: "The plugin message if any",
+      pluginMsg: "The plugin message if any"
     }
 
 Currently the plugin supports 17 wellness API's (excluding Genetic Traits & Genotypes). Please refer for the list of wellness API's and data formats [here](https://reference.humanapi.co/v2.1/reference#wellness-api-introduction)
@@ -114,7 +114,7 @@ Currently the plugin supports 17 wellness API's (excluding Genetic Traits & Geno
     {
       humanAPIData: "SOURCES_API_DATA",
       key: "PASSED_KEY",
-      pluginMsg: "The plugin message if any",
+      pluginMsg: "The plugin message if any"
     }
 
 Please refer to sources data format [here](https://reference.humanapi.co/v2.1/reference#sources)

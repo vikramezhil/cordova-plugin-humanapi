@@ -1,4 +1,4 @@
-# cordova-plugin-humanapi v1.0.2
+# cordova-plugin-humanapi v1.0.3
 humanapi cordova plugin for android & ios
 
 <b><h2>Plugin installation</h2></b>

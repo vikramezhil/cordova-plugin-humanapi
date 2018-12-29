@@ -1,6 +1,6 @@
 {
     "name": "cordova-plugin-humanapi",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Human API Plugin for Android and IOS",
     "cordova": {
       "id": "cordova-plugin-humanapi",

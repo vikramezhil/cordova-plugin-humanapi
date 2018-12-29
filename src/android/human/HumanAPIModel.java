@@ -327,6 +327,8 @@ public class HumanAPIModel {
             return HumanAPIProperties.HUMAN_SUMMARY_URL;
         } else if(key.equals("profile")) {
             return HumanAPIProperties.HUMAN_PROFILE_URL;
+        } else if(key.equals("sources")) {
+            return HumanAPIProperties.HUMAN_SOURCE_URL;
         } else {
             return null;
         }

@@ -121,4 +121,6 @@ Please refer to sources data format [here](https://reference.humanapi.co/v2.1/re
 
 <b><h3>Examples</h3></b>
 
-For plugin examples, please refer [here](https://github.com/vikramezhil/cordova-plugin-humanapi/wiki/6.-API-calls)
+For general plugin examples, please refer [here](https://github.com/vikramezhil/cordova-plugin-humanapi/wiki/6.-API-calls)
+
+For a full fledged ionic example, please refer [here](https://github.com/vikramezhil/cordova-plugin-humanapi/tree/master/humanapi-example)

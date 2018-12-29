@@ -11,6 +11,10 @@ humanapi cordova plugin for android & ios
 
     cordova plugin add cordova-plugin-humanapi
 
+<b>via ionic</b>
+
+    ionic cordova plugin add cordova-plugin-humanapi
+
 <b><h2>Documentation</h2></b>
 
 For a detailed documentation 📔, please have a look at the [Wiki](https://github.com/vikramezhil/cordova-plugin-humanapi/wiki).
@@ -27,9 +31,9 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
 
 <b><h2>Usage</h2></b>
 
-<b><h3>Authentication</h3></b>
+<b><h3>Cordova, Ionic 1</h3></b>
 
-<b>Cordova, Ionic 1</b>
+<b>Authentication</b>
 
     window.plugin.humanapi.auth("CLIENT_ID", "CLIENT_SECRET", "USER_ID", "PUBLIC_TOKEN", "ACCESS_TOKEN", function(result) {
         alert("Result = " + result)
@@ -37,7 +41,25 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
         alert("Error = " + error)
     })
 
-<b>Ionic 2+</b>
+<b>Wellness Data</b>
+
+    window.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", function(result) {
+        alert("Result = " + result)
+    }, function(error) {
+        alert("Error = " + error)
+    })
+
+<b>Source Data</b>
+
+    window.plugin.humanapi.execute("sources", "ACCESS_TOKEN", function(result) {
+        alert("Result = " + result)
+    }, function(error) {
+        alert("Error = " + error)
+    })
+
+<b><h3>Ionic 2+</h3></b>
+
+<b>Authentication</b>
 
     var human: any = window
     human.plugin.humanapi.auth("CLIENT_ID", "CLIENT_SECRET", "USER_ID", "PUBLIC_TOKEN", "ACCESS_TOKEN", (result) => {
@@ -45,8 +67,26 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
     }, (error) => {
       alert("Error = " + error)
     })
+
+<b>Wellness Data</b>
+
+    var human: any = window
+    human.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", (result) => {
+      alert("Result = " + result)
+    }, (error) => {
+      alert("Error = " + error)
+    })
     
-<b>Authentication Data Format</b>
+<b>Source Data</b>
+
+    var human: any = window
+    human.plugin.humanapi.execute("sources", "ACCESS_TOKEN", (result) => {
+      alert("Result = " + result)
+    }, (error) => {
+      alert("Error = " + error)
+    })
+
+<b><h3>Authentication Data Format</h3></b>
 
     {
       clientID: "CLIENT_ID",
@@ -58,27 +98,8 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
       accessToken: "ACCESS_TOKEN", 
       pluginMsg: "The plugin message if any"
     }
-    
-<b><h3>Wellness Data</h3></b>
 
-<b>Cordova, Ionic 1</b>
-
-    window.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", function(result) {
-        alert("Result = " + result)
-    }, function(error) {
-        alert("Error = " + error)
-    })
-
-<b>Ionic 2+</b>
-
-    var human: any = window
-    human.plugin.humanapi.execute("WELLNESS_NAME", "ACCESS_TOKEN", (result) => {
-      alert("Result = " + result)
-    }, (error) => {
-      alert("Error = " + error)
-    })
-
-<b>Wellness Supported API's & Data Format</b>
+<b><h3>Wellness Supported API's & Data Format</h3></b>
 
 Currently the plugin supports 17 wellness API's (excluding Genetic Traits & Genotypes). Please refer for the list of wellness API's and data formats [here](https://reference.humanapi.co/v2.1/reference#wellness-api-introduction)
 

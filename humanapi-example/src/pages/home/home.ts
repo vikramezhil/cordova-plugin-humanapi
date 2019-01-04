@@ -7,6 +7,12 @@ import { HumanapiWellnessDataKeys, HumanAPIKeys } from '../mods/human-api-proper
   templateUrl: 'home.html'
 })
 
+/**
+ * HomePage
+ *
+ * @author Vikram Ezhil
+ */
+
 export class HomePage {
   private static TAG = "HomePage"
 

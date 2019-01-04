@@ -68,6 +68,10 @@ public class HumanAPIPlugin extends CordovaPlugin implements HumanAPIListener {
             this.humanAPIService.execute(callbackContext, args.getString(0), args.getString(1));
 
             return true;
+        } else if (action.equals("executeByFilter")) {
+            this.humanAPIService.executeByFilter(callbackContext, args.getString(0), args.getString(1), args.getString(2));
+
+            return true;
         }
 
         return false;

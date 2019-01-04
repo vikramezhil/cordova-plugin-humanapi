@@ -14,6 +14,10 @@ HumanAPIPlugin.prototype.execute = function (type, accessToken, success, error) 
     exec(success, error, pluginName, 'execute', [type, accessToken]);
 };
 
+HumanAPIPlugin.prototype.executeByFilter = function (type, accessToken, filterName, success, error) {
+    exec(success, error, pluginName, 'executeByFilter', [type, accessToken, filterName]);
+};
+
 // Installation constructor that binds HumanAPIPlugin to window
 HumanAPIPlugin.install = function() {
     if(!window.plugin) {

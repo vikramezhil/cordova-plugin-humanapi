@@ -56,7 +56,7 @@ public class HumanAPIService {
     }
 
     /**
-     * Executes the human API wellness services based on key
+     * Executes the human API services based on key
      *
      * @param callbackContext The callback context
      * @param key The human api service key
@@ -76,6 +76,32 @@ public class HumanAPIService {
                 this.humanAPIModel.setAccessToken(accessToken);
 
                 service.get(callbackContext, key, url, humanAPIModel.getDataHeader());
+            }   
+        }
+    }
+
+    /**
+     * Executes the human API services based on key and filter
+     *
+     * @param callbackContext The callback context
+     * @param key The human api service key
+     * @param accessToken The access token
+     * @param filterName The filter name
+     */
+    public void executeByFilter(CallbackContext callbackContext, String key, String accessToken, String filterName) {
+        if(accessToken == null || accessToken.isEmpty()) {
+            humanAPIListener.onHumanAPIUpdate(callbackContext, false, humanAPIModel.getHumanAPIHybridData("", key, "Access token is empty"));
+        } else {
+            // Getting the data url
+            String url = this.humanAPIModel.getDataURL(key);
+
+            if(url == null || url.isEmpty()) {
+                humanAPIListener.onHumanAPIUpdate(callbackContext, false, humanAPIModel.getHumanAPIHybridData("", key, "Unknown data key, unable to generate url"));
+            } else {
+                // Saving the access token in the human api model
+                this.humanAPIModel.setAccessToken(accessToken);
+
+                service.get(callbackContext, key, url + ("?source=" + filterName), humanAPIModel.getDataHeader());
             }   
         }
     }

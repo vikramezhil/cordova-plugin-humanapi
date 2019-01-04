@@ -24,7 +24,7 @@ class HumanAPIService: NSObject, ServiceDelegate {
     }
 
     ///
-    /// Executes the human API wellness services based on key
+    /// Executes the human API services based on key
     ///
     /// :param: command The callback context
     /// :param: key The human api service key
@@ -39,6 +39,30 @@ class HumanAPIService: NSObject, ServiceDelegate {
                 humanAPIModel.accessToken = accessToken
 
                 service.get(command: command, passbackKey: key, requestLink: url, customHeaders: humanAPIModel.dataHeader)
+            } else {
+                humanAPIServiceDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: key, pluginMsg: "Unknown data key, unable to generate url"))
+            }
+        }
+    }
+
+    ///
+    /// Executes the human API services based on key & filter
+    ///
+    /// :param: command The callback context
+    /// :param: key The human api service key
+    /// :param: accessToken The access token
+    /// :param: filterName The filter name
+    ///
+    func executeByFilter(command: CDVInvokedUrlCommand, key: String, accessToken: String, filterName: String) {
+        if(accessToken.count == 0) {
+            humanAPIServiceDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: key, pluginMsg: "Access token is empty"))
+        } else {
+            if let url = humanAPIModel.getDataURL(dataKey: key) {
+                // Saving the access token in the human api model
+                humanAPIModel.accessToken = accessToken
+
+                let filterUrl: String = "\(url)?source=\(filterName)"
+                service.get(command: command, passbackKey: key, requestLink: filterUrl, customHeaders: humanAPIModel.dataHeader)
             } else {
                 humanAPIServiceDelegate?.onHumanAPIUpdate(command: command, success: false, humanAPIData: humanAPIModel.getHumanAPIHybridData(humanAPIData: "", key: key, pluginMsg: "Unknown data key, unable to generate url"))
             }

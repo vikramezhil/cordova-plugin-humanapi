@@ -66,7 +66,7 @@ import UIKit
     }
 
     ///
-    /// Executes the human API wellness services
+    /// Executes the human API services
     ///
     /// :param: command The cdv url command instance
     ///
@@ -74,6 +74,18 @@ import UIKit
     func execute(command: CDVInvokedUrlCommand) {
         if let wellnessKey = command.arguments[0] as? String, let token = command.arguments[1] as? String {
             humanAPIService?.execute(command: command, key: wellnessKey, accessToken: token)
+        }
+    }
+
+    ///
+    /// Executes the human API services based on filter
+    ///
+    /// :param: command The cdv url command instance
+    ///
+    @objc(executeByFilter:)
+    func executeByFilter(command: CDVInvokedUrlCommand) {
+        if let wellnessKey = command.arguments[0] as? String, let token = command.arguments[1] as? String, let filter = command.arguments[2] as? String {
+            humanAPIService?.executeByFilter(command: command, key: wellnessKey, accessToken: token, filterName: filter)
         }
     }
 

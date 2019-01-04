@@ -49,6 +49,12 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
         alert("Error = " + error)
     })
 
+    window.plugin.humanapi.executeByFilter("WELLNESS_NAME", "ACCESS_TOKEN", "FILTER_NAME", function(result) {
+        alert("Result = " + result)
+    }, function(error) {
+        alert("Error = " + error)
+    })
+
 <b>Sources Data</b>
 
     window.plugin.humanapi.execute("sources", "ACCESS_TOKEN", function(result) {
@@ -77,6 +83,12 @@ For a detailed documentation 📔, please have a look at the [Wiki](https://gith
       alert("Error = " + error)
     })
     
+    human.plugin.humanapi.executeByFilter("WELLNESS_NAME", "ACCESS_TOKEN", "FILTER_NAME", (result) => {
+      alert("Result = " + result)
+    }, (error) => {
+      alert("Error = " + error)
+    })
+
 <b>Sources Data</b>
 
     var human: any = window

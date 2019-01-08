@@ -14,6 +14,8 @@
 
 <b><h2>Run Code</h2></b>
 
+    ionic serve
+    
     ionic cordova platform add android
     cordova build android
     cordova run android

@@ -283,45 +283,13 @@ class HumanAPIModel: NSObject {
     /// :return: The wellness data url based on key
     ///
     func getDataURL(dataKey: String) -> String? {
-        if(dataKey == "activities") {
-            return HumanAPIProperties.ACTIVITIES_URL
-        } else if(dataKey == "activitiesSummaries") {
-            return HumanAPIProperties.ACTIVITIES_SUMMARIES_URL
-        } else if(dataKey == "bloodGlucose") {
-            return HumanAPIProperties.BLOOD_GLUCOSE_URL
-        } else if(dataKey == "bloodOxygen") {
-            return HumanAPIProperties.BLOOD_OXYGEN_URL
-        } else if(dataKey == "bloodPressure") {
-            return HumanAPIProperties.BLOOD_PRESSURE_URL
-        } else if(dataKey == "bodyMassIndex") {
-            return HumanAPIProperties.BMI_URL
-        } else if(dataKey == "bodyFat") {
-            return HumanAPIProperties.BODY_FAT_URL
-        } else if(dataKey == "heartRate") {
-            return HumanAPIProperties.HEART_RATE_URL
-        } else if(dataKey == "heartRateSummaries") {
-            return HumanAPIProperties.HEART_RATE_SUMMARIES_URL
-        } else if(dataKey == "height") {
-            return HumanAPIProperties.HEIGHT_URL
-        } else if(dataKey == "weight") {
-            return HumanAPIProperties.WEIGHT_URL
-        } else if(dataKey == "locations") {
-            return HumanAPIProperties.LOCATIONS_URL
-        } else if(dataKey == "meals") {
-            return HumanAPIProperties.MEALS_URL
-        } else if(dataKey == "sleeps") {
-            return HumanAPIProperties.SLEEPS_URL
-        } else if(dataKey == "sleepSummaries") {
-            return HumanAPIProperties.SLEEP_SUMMARIES_URL
-        } else if(dataKey == "humanSummary") {
-            return HumanAPIProperties.HUMAN_SUMMARY_URL
-        } else if(dataKey == "profile") {
-            return HumanAPIProperties.HUMAN_PROFILE_URL
-        } else if(dataKey == "sources") {
-            return HumanAPIProperties.HUMAN_SOURCE_URL
-        } else {
-            return nil
+        for (key, url) in HumanAPIProperties.HUMAN_URLS {
+            if(key == dataKey) {
+                return url
+            }
         }
+
+        return nil
     }
     
     var dataHeader: [String : String] {

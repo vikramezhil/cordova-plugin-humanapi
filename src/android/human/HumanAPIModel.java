@@ -293,45 +293,13 @@ public class HumanAPIModel {
      * @return The wellness data url based on key
      */
     public String getDataURL(String key) {
-        if(key.equals("activities")) {
-            return HumanAPIProperties.ACTIVITIES_URL;
-        } else if(key.equals("activitiesSummaries")) {
-            return HumanAPIProperties.ACTIVITIES_SUMMARIES_URL;
-        } else if(key.equals("bloodGlucose")) {
-            return HumanAPIProperties.BLOOD_GLUCOSE_URL;
-        } else if(key.equals("bloodOxygen")) {
-            return HumanAPIProperties.BLOOD_OXYGEN_URL;
-        } else if(key.equals("bloodPressure")) {
-            return HumanAPIProperties.BLOOD_PRESSURE_URL;
-        } else if(key.equals("bodyMassIndex")) {
-            return HumanAPIProperties.BMI_URL;
-        } else if(key.equals("bodyFat")) {
-            return HumanAPIProperties.BODY_FAT_URL;
-        } else if(key.equals("heartRate")) {
-            return HumanAPIProperties.HEART_RATE_URL;
-        } else if(key.equals("heartRateSummaries")) {
-            return HumanAPIProperties.HEART_RATE_SUMMARIES_URL;
-        } else if(key.equals("height")) {
-            return HumanAPIProperties.HEIGHT_URL;
-        } else if(key.equals("weight")) {
-            return HumanAPIProperties.WEIGHT_URL;
-        } else if(key.equals("locations")) {
-            return HumanAPIProperties.LOCATIONS_URL;
-        } else if(key.equals("meals")) {
-            return HumanAPIProperties.MEALS_URL;
-        } else if(key.equals("sleeps")) {
-            return HumanAPIProperties.SLEEPS_URL;
-        } else if(key.equals("sleepSummaries")) {
-            return HumanAPIProperties.SLEEP_SUMMARIES_URL;
-        } else if(key.equals("humanSummary")) {
-            return HumanAPIProperties.HUMAN_SUMMARY_URL;
-        } else if(key.equals("profile")) {
-            return HumanAPIProperties.HUMAN_PROFILE_URL;
-        } else if(key.equals("sources")) {
-            return HumanAPIProperties.HUMAN_SOURCE_URL;
-        } else {
-            return null;
+        for(Map.Entry<String, String> entry : HumanAPIProperties.HUMAN_URLS.entrySet()) {
+            if(entry.getKey().equals(key)) {
+                return entry.getValue();
+            }
         }
+
+        return null;
     }
 
     /**

@@ -12,7 +12,8 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
     
     @IBOutlet weak var wkWVHumanAPI: WKWebView!
     @IBOutlet weak var wkWVRedirectHumanAPI: WKWebView!
-    
+    @IBOutlet weak var wkWVClose: UIButton!
+
     private var service: Service = Service()
     private var humanAPIModel: HumanAPIModel = HumanAPIModel()
     
@@ -74,6 +75,29 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
         humanTokens["accessToken"] = accessToken
     }
     
+    // @Override IBAction Methods
+    
+    @IBAction func onClick(_ sender: UIButton) {
+        switch sender {
+            case wkWVClose:
+                
+                if(wkWVHumanAPI.isHidden) {
+                    wkWVRedirectHumanAPI.isHidden = true
+                    wkWVRedirectHumanAPI.load(URLRequest(url: URL(string: "about:blank")!))
+                    
+                    wkWVClose.isHidden = true
+                    wkWVHumanAPI.isHidden = false
+                }
+                
+                break
+            
+            default:
+                print(TAG, "Uknown button action clicked")
+                
+                break
+        }
+    }
+
     // @Override WKUIDelegate Methods
     
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -103,7 +127,7 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
         
         if let requestUrl = navigationAction.request.url {
             let newUrl = requestUrl.absoluteString
-            
+
             if(newUrl.hasPrefix(humanAPIModel.finishUrl)) {
                 // Setting the human API response in the model data
                 humanAPIModel.setHumanAPIResponse(response: requestUrl)
@@ -148,7 +172,10 @@ class HumanAPIVC: UIViewController, WKUIDelegate, WKNavigationDelegate, ServiceD
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print(TAG, "Completed navigation = \(String(describing: webView.url))")
+        let url = String(describing: webView.url)
+        wkWVClose.isHidden = (url.contains(humanAPIModel.baseUrl) || url.contains(humanAPIModel.closeUrl) || url.contains(humanAPIModel.finishUrl) || url.contains("about:blank"))
+
+        print(TAG, "Completed navigation = \(url)")
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {

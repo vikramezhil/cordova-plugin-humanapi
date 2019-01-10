@@ -35,6 +35,15 @@ class HumanAPIModel: NSObject {
     private var pToken: String = "", aToken: String = ""
     
     ///
+    /// Gets the base URL
+    ///
+    var baseUrl: String {
+        get {
+            return self.baseURL
+        }
+    }
+
+    ///
     /// Gets the finish URL
     ///
     var finishUrl: String {

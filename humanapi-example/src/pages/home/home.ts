@@ -16,12 +16,18 @@ import { HumanapiWellnessDataKeys, HumanAPIKeys } from '../mods/human-api-proper
 export class HomePage {
   private static TAG = "HomePage"
 
+  wellnessData: string[] = []
+
   wellness: string = "activities"
   wellnessScreenData: string[] = []
 
   constructor(public navCtrl: NavController, public ngZone: NgZone) {
     if(localStorage.userTokens != null) {
       console.log(HomePage.TAG, "Tokens = " + JSON.stringify(localStorage.userTokens))
+    }
+
+    for(let key of Object.keys(HumanapiWellnessDataKeys)) {
+      this.wellnessData.push(key)
     }
   }
 
@@ -91,8 +97,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.bloodGlucoseLatest:
             case HumanapiWellnessDataKeys.bloodGlucose:
-              let bloodGlucose: BloodGlucose[] = JSON.parse(welnessData.humanAPIData)
+              let bloodGlucose: BloodGlucose[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.bloodGlucoseLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  bloodGlucose = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                bloodGlucose = JSON.parse(welnessData.humanAPIData)
+              }
+
               for(let bg of bloodGlucose) {
                 let data: string = "Type = " + this.wellness + ", Source = " + bg.source + ", Blood Glucose = " + bg.value
                 this.wellnessScreenData.push(data)
@@ -100,8 +115,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.bloodOxygenLatest:
             case HumanapiWellnessDataKeys.bloodOxygen:
-              let bloodOxygen: BloodOxygen[] = JSON.parse(welnessData.humanAPIData)
+              var bloodOxygen: BloodOxygen[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.bloodOxygenLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  bloodOxygen = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                bloodOxygen = JSON.parse(welnessData.humanAPIData)
+              }
+
               for(let bo of bloodOxygen) {
                 let data: string = "Type = " + this.wellness + ", Source = " + bo.source + ", Blood Oxygen = " + bo.value
                 this.wellnessScreenData.push(data)
@@ -109,8 +133,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.bloodPressureLatest:
             case HumanapiWellnessDataKeys.bloodPressure:
-              let bloodPressure: BloodPressure[] = JSON.parse(welnessData.humanAPIData)
+              var bloodPressure: BloodPressure[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.bloodPressureLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  bloodPressure = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                bloodPressure = JSON.parse(welnessData.humanAPIData)
+              }
+
               for(let bp of bloodPressure) {
                 let data: string = "Type = " + this.wellness + ", Source = " + bp.source + ", Systolic = " + bp.systolic + ", Diastolic = " + bp.diastolic
                 this.wellnessScreenData.push(data)
@@ -118,8 +151,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.bodyMassIndexLatest:
             case HumanapiWellnessDataKeys.bodyMassIndex:
-              let bodyMassIndex: BodyMassIndex[] = JSON.parse(welnessData.humanAPIData)
+              var bodyMassIndex: BodyMassIndex[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.bodyMassIndexLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  bodyMassIndex = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                bodyMassIndex = JSON.parse(welnessData.humanAPIData)
+              }
+
               for(let bmi of bodyMassIndex) {
                 let data: string = "Type = " + this.wellness + ", Source = " + bmi.source + ", BMI = " + bmi.value
                 this.wellnessScreenData.push(data)
@@ -127,8 +169,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.bodyFatLatest:
             case HumanapiWellnessDataKeys.bodyFat:
-              let bodyFat: BodyFat[] = JSON.parse(welnessData.humanAPIData)
+              var bodyFat: BodyFat[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.bodyFatLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  bodyFat = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                bodyFat = JSON.parse(welnessData.humanAPIData)
+              }
+
               for(let bf of bodyFat) {
                 let data: string = "Type = " + this.wellness + ", Source = " + bf.source + ", Body Fat= " + bf.value
                 this.wellnessScreenData.push(data)
@@ -136,8 +187,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.heartRateLatest:
             case HumanapiWellnessDataKeys.heartRate:
-              let heartRate: HeartRate[] = JSON.parse(welnessData.humanAPIData)
+              var heartRate: HeartRate[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.heartRateLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  heartRate = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                heartRate = JSON.parse(welnessData.humanAPIData)
+              }
+              
               for(let hr of heartRate) {
                 let data: string = "Type = " + this.wellness + ", Source = " + hr.source + ", Heart Rate = " + hr.value
                 this.wellnessScreenData.push(data)
@@ -154,8 +214,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.heightLatest:
             case HumanapiWellnessDataKeys.height:
-              let height: Height[] = JSON.parse(welnessData.humanAPIData)
+              var height: Height[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.heightLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  height = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                height = JSON.parse(welnessData.humanAPIData)
+              }
+
               for(let hgt of height) {
                 let data: string = "Type = " + this.wellness + ", Source = " + hgt.source + ", Height = " + hgt.value
                 this.wellnessScreenData.push(data)
@@ -163,8 +232,17 @@ export class HomePage {
   
               break
   
+            case HumanapiWellnessDataKeys.weightLatest:
             case HumanapiWellnessDataKeys.weight:
-              let weight: Weight[] = JSON.parse(welnessData.humanAPIData)
+              let weight: Weight[] = []
+              if(this.wellness == HumanapiWellnessDataKeys.weightLatest) {
+                if(JSON.parse(welnessData.humanAPIData) != {}) {
+                  weight = [JSON.parse(welnessData.humanAPIData)]
+                }
+              } else {
+                weight = JSON.parse(welnessData.humanAPIData)
+              }
+
               for(let wgt of weight) {
                 let data: string = "Type = " + this.wellness + ", Source = " + wgt.source + ", Weight = " + wgt.value
                 this.wellnessScreenData.push(data)

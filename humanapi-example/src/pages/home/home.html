@@ -3,69 +3,9 @@
     <ion-row>
       <ion-col>
         <ion-list radio-group [(ngModel)]="wellness">
-            <ion-item>
-              <ion-label>activities</ion-label>
-              <ion-radio value="activities" checked></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>activitiesSummaries</ion-label>
-              <ion-radio value="activitiesSummaries"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>bloodGlucose</ion-label>
-              <ion-radio value="bloodGlucose"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>bloodOxygen</ion-label>
-                <ion-radio value="bloodOxygen"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>bloodPressure</ion-label>
-                <ion-radio value="bloodPressure"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>bodyMassIndex</ion-label>
-                <ion-radio value="bodyMassIndex"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>bodyFat</ion-label>
-                <ion-radio value="bodyFat"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>heartRate</ion-label>
-                <ion-radio value="heartRate"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>heartRateSummaries</ion-label>
-                <ion-radio value="heartRateSummaries"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>height</ion-label>
-                <ion-radio value="height"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>weight</ion-label>
-                <ion-radio value="weight"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>sleeps</ion-label>
-                <ion-radio value="sleeps"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>sleepSummaries</ion-label>
-                <ion-radio value="sleepSummaries"></ion-radio>
+            <ion-item *ngFor="let key of wellnessData">
+              <ion-label>{{key}}</ion-label>
+              <ion-radio [value]="key"></ion-radio>
             </ion-item>
           </ion-list>
       </ion-col>

@@ -32,5 +32,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <plugin name="cordova-plugin-humanapi" spec="1.0.4" />
+    <plugin name="cordova-plugin-humanapi" spec="1.0.5" />
 </widget>
